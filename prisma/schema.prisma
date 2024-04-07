@@ -1,24 +1,26 @@
 // This is your Prisma schema file,
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
-generator client {
-    provider        = "prisma-client-js"
-}
 
 datasource db {
     provider = "postgresql"
     url      = env("DATABASE_URL")
     directUrl = env("DATABASE_URL_UNPOOLED")
-
-    // If you have enabled foreign key constraints for your database, remove this line.
     relationMode = "prisma"
 }
 
-model Post {
-    id        Int      @id @default(autoincrement())
-    name      String
-    createdAt DateTime @default(now())
-    updatedAt DateTime @updatedAt
-
-    @@index([name])
+generator client {
+    provider        = "prisma-client-js"
 }
+
+
+model Post {
+    id        String      @id@default(cuid())
+    createdAt DateTime @default(now())
+    
+    content String @db.VarChar(255)
+    authorId String
+
+    @@index([authorId])
+
+    }
